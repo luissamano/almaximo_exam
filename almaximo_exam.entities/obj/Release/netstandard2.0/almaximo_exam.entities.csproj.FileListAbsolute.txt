@@ -1,0 +1,9 @@
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\bin\Release\netstandard2.0\almaximo_exam.entities.deps.json
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\bin\Release\netstandard2.0\almaximo_exam.entities.dll
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\bin\Release\netstandard2.0\almaximo_exam.entities.pdb
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\obj\Release\netstandard2.0\almaximo_exam.entities.csprojAssemblyReference.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\obj\Release\netstandard2.0\almaximo_exam.entities.csproj.CoreCompileInputs.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\obj\Release\netstandard2.0\almaximo_exam.entities.AssemblyInfoInputs.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\obj\Release\netstandard2.0\almaximo_exam.entities.AssemblyInfo.cs
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\obj\Release\netstandard2.0\almaximo_exam.entities.dll
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.entities\obj\Release\netstandard2.0\almaximo_exam.entities.pdb

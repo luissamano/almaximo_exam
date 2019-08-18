@@ -1,0 +1,17 @@
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\bin\Debug\netcoreapp2.2\almaximo_exam.entities.dll
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.csprojAssemblyReference.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.csproj.CoreCompileInputs.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.RazorAssemblyInfo.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.RazorAssemblyInfo.cs
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.AssemblyInfoInputs.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.AssemblyInfo.cs
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.RazorTargetAssemblyInfo.cache
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\bin\Debug\netcoreapp2.2\almaximo_exam.api.deps.json
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\bin\Debug\netcoreapp2.2\almaximo_exam.api.runtimeconfig.json
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\bin\Debug\netcoreapp2.2\almaximo_exam.api.runtimeconfig.dev.json
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\bin\Debug\netcoreapp2.2\almaximo_exam.api.dll
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\bin\Debug\netcoreapp2.2\almaximo_exam.api.pdb
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\bin\Debug\netcoreapp2.2\almaximo_exam.entities.pdb
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.csproj.CopyComplete
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.dll
+C:\Users\marti\source\repos\almaximo_exam\almaximo_exam.api\obj\Debug\netcoreapp2.2\almaximo_exam.api.pdb
