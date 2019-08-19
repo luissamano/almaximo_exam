@@ -1,4 +1,4 @@
-USE db_almaximo
+USE db_almaximo;
 GO
 
 
@@ -22,29 +22,6 @@ EXECUTE dbo.spObtenerProveedores
 GO
 
 
---IF EXISTS (
---SELECT *
---	FROM INFORMATION_SCHEMA.ROUTINES
---WHERE SPECIFIC_SCHEMA = N'dbo'
---	AND SPECIFIC_NAME = N'spObtenerProveedorId'
---)
---DROP PROCEDURE dbo.spObtenerProveedorId
---GO
----- Create the stored procedure in the specified schema
---CREATE PROCEDURE dbo.spObtenerProveedorId
---	@param int = 0
---AS
---	-- body of the stored procedure
---	SELECT [Nombre], [Descripcion]
---	FROM Proveedor
---	WHERE [Id] = @param
---GO
--- example to execute the stored procedure we just created
---EXECUTE dbo.spObtenerProveedorId 3 /*value_for_param1*/
---GO
-
-
-
 IF EXISTS (
 SELECT *
 	FROM INFORMATION_SCHEMA.ROUTINES
@@ -63,55 +40,6 @@ AS
 GO
 -- example to execute the stored procedure we just created
 EXECUTE dbo.spObtenerProductos
-GO
-
-
-
-
-IF EXISTS (
-SELECT *
-	FROM INFORMATION_SCHEMA.ROUTINES
-WHERE SPECIFIC_SCHEMA = N'dbo'
-	AND SPECIFIC_NAME = N'spObtenerProductoId'
-)
-DROP PROCEDURE dbo.spObtenerProductoId
-GO
--- Create the stored procedure in the specified schema
-CREATE PROCEDURE dbo.spObtenerProductoId
-	@Clave NVARCHAR(50) = NULL
-AS
-	-- body of the stored procedure
-	SELECT [Clave], [Nombre], [Tipo_producto], 
-		   [Costo], [Estatus], [Proveedor]
-		FROM Producto
-		WHERE [Clave] = @Clave
-GO
--- example to execute the stored procedure we just created
-EXECUTE dbo.spObtenerProductoId 'coca355ml'
-GO
-
-
-
-IF EXISTS (
-SELECT *
-	FROM INFORMATION_SCHEMA.ROUTINES
-WHERE SPECIFIC_SCHEMA = N'dbo'
-	AND SPECIFIC_NAME = N'spObtenerProductoNombre'
-)
-DROP PROCEDURE dbo.spObtenerProductoNombre
-GO
--- Create the stored procedure in the specified schema
-CREATE PROCEDURE dbo.spObtenerProductoNombre
-	@Nombre NVARCHAR(80) = NULL
-AS
-	-- body of the stored procedure
-	SELECT [Clave], [Nombre], [Tipo_producto], 
-		   [Costo], [Estatus], [Proveedor]
-		FROM Producto
-		WHERE [Nombre] = @Nombre
-GO
--- example to execute the stored procedure we just created
-EXECUTE dbo.spObtenerProductoNombre 'Coca-Cola 355 ML'
 GO
 
 
@@ -158,7 +86,6 @@ AS
 				ROLLBACK TRAN
 			END
 GO
-
 
 
 CREATE PROCEDURE [dbo].[spObtenerTipoDeProductos]

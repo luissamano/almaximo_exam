@@ -52,7 +52,7 @@ namespace almaximo_exam.api.Controllers
             return lsProductos;
         }
 
-        [HttpPut] 
+        [HttpPost] 
         public async Task<int> InsertProductos([FromBody] List<Producto> json)
         {
             int res = 0;
@@ -95,6 +95,85 @@ namespace almaximo_exam.api.Controllers
             }
 
             return res;
+        }
+
+        [HttpPut]
+        public async Task<int> ActualizarProducto([FromBody] Producto producto)
+        {
+            int res = 0;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("spActualizarProducto", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@Clave", SqlDbType.NVarChar).Value = producto.Clave;
+                    cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar).Value = producto.Nombre;
+                    cmd.Parameters.Add("@Tipo", SqlDbType.NVarChar).Value = producto.Tipo_producto;
+                    cmd.Parameters.Add("@Costo", SqlDbType.Decimal).Value = producto.Costo;
+                    cmd.Parameters.Add("@Estatus", SqlDbType.NVarChar).Value = producto.Estatus;
+                    cmd.Parameters.Add("@Proveedor", SqlDbType.NVarChar).Value = producto.Proveedor;
+
+                    await conn.OpenAsync();
+
+                    var r = await cmd.ExecuteNonQueryAsync();
+
+                    try
+                    {
+                        if (r != 0)
+                            res = 1;
+                        else
+                            res = 0;
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine("ErrorSQL: " + e);
+                        conn.Close();
+                    }
+
+                }
+
+                conn.Close();
+            }
+
+            return res;
+        }
+
+        [HttpDelete]
+        public async Task<int> EliminarProducto([FromBody] Proveedor clave)
+        {
+            int res = 0;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("spEliminarProducto", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@Clave", SqlDbType.NVarChar).Value = clave.Nombre;
+
+                    try
+                    {
+                        await conn.OpenAsync();
+                        var r = await cmd.ExecuteNonQueryAsync();
+
+                    
+                        if (r != 0)
+                            res = 1;
+                        else
+                            res = 0;
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine("ErrorSQL: " + e);
+                    }
+
+                }
+
+                conn.Close();
+            }
+
+            return res;            
         }
 
     }

@@ -16,30 +16,41 @@
         ></v-text-field>
         <v-spacer></v-spacer>
 
-        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-dialog v-model="dialog" persistent max-width="800px">
           <template v-slot:activator="{ on }">
             <v-btn color="pink" dark v-on="on">Agregar un producto</v-btn>
           </template>
           <v-card>
-            <v-toolbar flat color="blue darken-3">
-              <v-btn icon dark @click="dialog = false">
+            <v-toolbar>
+              <v-btn icon @click="dialog = false">
                 <v-icon>close</v-icon>
               </v-btn>
-              <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-                <span class="hidden-sm-and-down">Agregar un nuevo producto</span>
-              </v-toolbar-title>
+              <v-card-title>
+                <span class="headline">Agregar un producto</span>
+              </v-card-title>
               <v-spacer></v-spacer>
             </v-toolbar>
 
+            <!-- Modal Nuevo producto -->
             <v-layout column>
-              <v-form ref="form" v-model="valid" lazy-validation >
+              <v-form ref="form" v-model="valid" lazy-validation>
                 <v-container grid-list-md text-center>
                   <v-layout wrap>
                     <v-flex xs12 md6>
-                      <v-text-field v-model="clave" label="Clave" :counter="50"
-                                    :rules="[v => !!v || 'Campo requerido']" required></v-text-field>
-                      <v-text-field v-model="nombre" label="Nombre" :counter="50"
-                                    :rules="[v => !!v || 'Campo requerido']" required></v-text-field>
+                      <v-text-field
+                        v-model="clave"
+                        label="Clave"
+                        :counter="50"
+                        :rules="[v => !!v || 'Campo requerido']"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="nombre"
+                        label="Nombre"
+                        :counter="50"
+                        :rules="[v => !!v || 'Campo requerido']"
+                        required
+                      ></v-text-field>
                     </v-flex>
 
                     <v-flex xs12 md6>
@@ -53,8 +64,13 @@
                         return-object
                         single-line
                       ></v-select>
-                      <v-text-field type="number" v-model="costo" label="Costo"
-                                    :rules="[v => !!v || 'Campo requerido']" required></v-text-field>
+                      <v-text-field
+                        type="number"
+                        v-model="costo"
+                        label="Costo"
+                        :rules="[v => !!v || 'Campo requerido']"
+                        required
+                      ></v-text-field>
                     </v-flex>
 
                     <v-flex xs12 md6>
@@ -74,8 +90,8 @@
                     </v-flex>
 
                     <v-flex xs12>
-                      <v-btn @click="registar()" class="mr-4">Registar</v-btn>
-                      <v-btn @click="limpiar()" >Limpiar</v-btn>
+                      <v-btn @click="validate()" class="mr-4">Registar</v-btn>
+                      <v-btn @click="limpiar()">Limpiar</v-btn>
                     </v-flex>
 
                     <v-flex xs12 md12>
@@ -89,8 +105,7 @@
                           <td class="text-xs-start">{{ props.item.proveedor }}</td>
                           <v-spacer></v-spacer>
                           <td class="justify-center layout px-0">
-                            <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-                            <v-icon small @click="deleteItem(props.item)">delete</v-icon>
+                            <v-icon small @click="showDeleteItem(props.item)">delete</v-icon>
                           </td>
                         </template>
                         <template v-slot:no-data>
@@ -105,25 +120,27 @@
                 </v-container>
               </v-form>
             </v-layout>
+
+            <!-- Modaal Eliminar de pre-registro -->
+            <v-dialog v-model="dialogEliminar" persistent max-width="290">
+              <v-card>
+                <v-card-title class="headline">Confirme la accion</v-card-title>
+                <v-card-text>
+                  Esta a punto de eliminar el elemento.
+                  ¿Esta seguro de hacerlo?
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn text @click="eliminarCache()">Cancelar</v-btn>
+                  <v-btn text @click="deleteItem()">Confirmar</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-card>
         </v-dialog>
       </v-toolbar>
 
-      <v-snackbar
-        v-model="snackbar"
-        :bottom="y === 'bottom'"
-        :color="color"
-        :left="x === 'left'"
-        :multi-line="mode === 'multi-line'"
-        :right="x === 'right'"
-        :timeout="timeout"
-        :top="y === 'top'"
-        :vertical="mode === 'vertical'"
-      >
-        {{ text_validation }}
-        <v-btn dark text @click="snackbar = false">Cerrar</v-btn>
-      </v-snackbar>
-
+      <!-- Tabla productos -->
       <v-data-table :headers="headers" :items="productos" :search="search" class="elevation-1">
         <template v-slot:items="props">
           <td>{{ props.item.clave }}</td>
@@ -133,15 +150,108 @@
           <td class="text-xs-start">{{ props.item.estatus }}</td>
           <td class="text-xs-start">{{ props.item.proveedor }}</td>
           <v-spacer></v-spacer>
+          <!-- 
           <td class="justify-center layout px-0">
-            <v-icon small class="mr-2" @click="editItemDb(props.item)">edit</v-icon>
+            <v-icon small class="mr-2" @click="validateEdit(props.item)">edit</v-icon>
             <v-icon small @click="deleteItemDb(props.item)">delete</v-icon>
           </td>
+          -->
         </template>
         <template v-slot:no-data>
           <v-btn color="primary">Reset</v-btn>
         </template>
       </v-data-table>
+
+      <!-- Modal editar DB -->
+      <v-dialog v-model="dialogEditar" max-width="400px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Editar producto</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.clave" label="Clave"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.nombre" label="Nombre"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                      v-model="tipo"
+                      :items="type_prod"
+                      :rules="[v => !!v || 'Campo requerido']"
+                      item-text="nombre"
+                      label="Tipo de producto"
+                      persistent-hint
+                      return-object
+                      single-line
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.costo" label="Costo"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                      v-model="estatus"
+                      :items="status"
+                      item-text="nombre"
+                      :rules="[v => !!v || 'Campo requerido']"
+                      label="Estatus"
+                      persistent-hint
+                      return-object
+                      single-line
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select
+                      v-model="proveedor"
+                      :items="proveedores"
+                      item-text="nombre"
+                      :rules="[v => !!v || 'Campo requerido']"
+                      label="Proveedor"
+                      persistent-hint
+                      return-object
+                      single-line
+                    ></v-select>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="dialogEditar = false">Cancelar</v-btn>
+            <v-btn @click="validateEdit()">Guardar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- Snackbar Error -->
+      <v-snackbar
+        v-model="snackbar_error"
+        :bottom="y === 'bottom'"
+        :color="color"
+        :timeout="timeout"
+      >
+        {{ text_validation }}
+        <v-btn dark text @click="snackbar_error = false">Ok</v-btn>
+      </v-snackbar>
+
+      <!-- Snackbar Success -->
+      <v-snackbar
+        v-model="snackbar_success"
+        :bottom="y === 'bottom'"
+        :color="color1"
+        :timeout="timeout"
+      >
+        {{ text_snackbar }}
+        <v-btn dark text @click="snackbar_success = false">Ok</v-btn>
+      </v-snackbar>
     </v-flex>
   </v-layout>
 </template>
@@ -153,11 +263,16 @@ import axios from "axios";
 export default {
   data() {
     return {
+      URLbase: "http://192.168.1.69:5001/",
       mode: "",
-      snackbar: false,
+      snackbar_error: false,
+      snackbar_success: false,
       text_validation: "Hay campos vacios",
+      text_snackbar: "Datos guardados con exito",
       timeout: 6000,
-      x: null,
+      color: "error",
+      color1: "success",
+      x: "",
       y: "top",
 
       // Valores
@@ -171,6 +286,7 @@ export default {
       valid: true,
       select: { nombre: "" },
       checkbox: null,
+      itemTMPdelete: null,
 
       // Productos
       preProductos: [],
@@ -179,8 +295,11 @@ export default {
       // Selects
       proveedores: [],
       type_prod: [],
+      status: ["Activo", "No Activo"],
 
       dialog: false,
+      dialogEditar: false,
+      dialogEliminar: false,
       headers: [
         { text: "Clave", value: "clave" },
         { text: "Nombre", value: "nombre" },
@@ -190,7 +309,23 @@ export default {
         { text: "Proveedor", value: "proveedor" }
       ],
       search: "",
-      editedIndex: -1
+      editedIndex: -1,
+      defaultItem: {
+        clave: "",
+        nombre: "",
+        tipo: "",
+        costo: 0.0,
+        estatus: "",
+        proveedor: ""
+      },
+      editedItem: {
+        clave: "",
+        nombre: "",
+        tipo: "",
+        costo: 0.0,
+        estatus: "",
+        proveedor: ""
+      }
     };
   },
   computed: {
@@ -207,18 +342,28 @@ export default {
     this.listar();
   },
   methods: {
-    
-    validate(){
-      if (this.$refs.form.validate()){
-        this.snackbar = true;
-        console.log("Validate")
+    async validate() {
+      if (this.$refs.form.validate()) {
+        console.log("Validate correcto");
+        await this.registar();
+      } else {
+        this.snackbar_error = true;
+        console.log("Los campos del formulario estan vacios");
+      }
+    },
+    validateEdit() {
+      if (this.$refs.form.validate()) {
+        console.log("Validate correcto");
+        this.editItemDb();
+      } else {
+        this.snackbar_error = true;
+        console.log("Los campos del formulario estan vacios");
       }
     },
     listar() {
-      var URLbase = "http://192.168.1.69:5001/"  
       let me = this;
       axios
-        .get(`${URLbase}api/productos`)
+        .get(`${me.URLbase}api/productos`)
         .then(function(response) {
           console.log(response);
           me.productos = response.data;
@@ -228,7 +373,7 @@ export default {
         });
 
       axios
-        .get(`${URLbase}api/tiipo`)
+        .get(`${me.URLbase}api/tiipo`)
         .then(function(response1) {
           me.type_prod = response1.data;
         })
@@ -237,7 +382,7 @@ export default {
         });
 
       axios
-        .get(`${URLbase}api/proveedor`)
+        .get(`${me.URLbase}api/proveedor`)
         .then(function(response2) {
           me.proveedores = response2.data;
         })
@@ -245,12 +390,8 @@ export default {
           console.log(error2);
         });
     },
-
     registar() {
       let me = this;
-      if (me.clave === "" && me.nombre === "" && me.tipo_producto === "" && me.costo === "" && me.proveedor === "") {
-        this.snackbar = true
-      }
       var act = "";
       if (me.estatus == true) {
         act = "Activo";
@@ -268,27 +409,35 @@ export default {
       };
 
       me.preProductos.push(item);
-
-      console.log(me.preProductos);
+      this.limpiar();
+      console.log("Se agrego el producto: " + item.clave);
     },
-    editItemDb(item) {},
-    deleteItemDb(item) {
-      var index = this.productos.indexOf(item);
-      confirm("Estas seguro de eliminar el producto del catálogo?")
-      axios
-      .delete(`${URLbase}/api/producto/delete`,  index)
-      .then(function(response) {
-        
+    editItemDb() {
+      let me =this;
+      axios.put(`${me.URLbase}api/productos`, me.editedItem)
+      .then(function (response) {
+        console.log("Se edito el producto");
+        me.dialogEditar = false;
+        me.editedItem = Object.assign({}, me.defaultItem);
       })
-      .catch(function(error) {
-        
+      .catch(function (error) {
+        console.log("Error no se edito nada: "+error);
       })
     },
-    editItem(item) {},
-    deleteItem(item) {
-      const index = this.preProductos.indexOf(item);
-      confirm("Estas seguro de eliminar el producto del catálogo?") &&
-        this.preProductos.splice(index, 1);
+    deleteItemDb(item) {},
+    showDeleteItem(item) {
+      this.dialogEliminar = true;
+      this.itemTMPdelete = item;
+    },
+    eliminarCache() {
+      this.dialogEliminar = false;
+      this.itemTMPdelete = null;
+    },
+    deleteItem() {
+      const index = this.preProductos.indexOf(this.itemTMPdelete);
+      this.preProductos.splice(index, 1);
+      console.log("Se quito el producto del index: " + index);
+      this.dialogEliminar = false;
     },
     close() {
       this.dialog = false;
@@ -299,20 +448,22 @@ export default {
     },
     save() {
       let me = this;
-      
-      validate();
-      axios.put(`${URLbase}api/productos`, me.preProductos)
-      .then(function(response3){
-        console.log(response);
-        limpiar();
-      })
-      .catch(function(error3){
-        console.log("Nada");
-        console.log(error);
-      })
+
+      me.dialog = false;
+      axios
+        .post(`${me.URLbase}api/productos`, me.preProductos)
+        .then(async function(response3) {
+          console.log(response3);
+          me.snackbar = true;
+          me.limpiar();
+        })
+        .catch(async function(error3) {
+          console.log("Nada");
+          console.log(error3);
+        });
       this.close();
     },
-    limpiar () {
+    limpiar() {
       this.$refs.form.resetValidation();
       let me = this;
 
@@ -321,9 +472,7 @@ export default {
       me.tipo = "";
       me.estatus = "";
       me.costo = 0.0;
-      me.proveedor = "";      
-
-      me.preProductos = [];
+      me.proveedor = "";
     }
   }
 };

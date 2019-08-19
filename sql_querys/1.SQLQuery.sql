@@ -1,11 +1,10 @@
-﻿--CREATE DATABASE db_almaximo;
---GO
---PRINT 'Se Creo la base de datos'
+﻿CREATE DATABASE db_almaximo;
+GO
+PRINT 'Se Creo la base de datos'
 
 USE db_almaximo;
 GO
 
-DROP TABLE Producto
 
 PRINT 'Cambio a db_almaximo'
 
@@ -79,7 +78,7 @@ GO
 -- Insert rows into table 'Producto'
 INSERT INTO Producto
 VALUES
-	('coca355ml', 'Coca-Cola 355 ML', 'Refresco', 9.50, 'Activo', 'FEMSA'),
+	('coca355ml', 'Coca-Cola 355 ML', 'Refresco', 10.50, 'Activo', 'FEMSA'),
 	('cocacola355ml', 'Coca-Cola 355 ML', 'Refresco', 9.60, 'No activo', 'Abarrotera Almaximo')
 GO
 
