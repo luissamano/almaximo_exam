@@ -56,9 +56,6 @@ CREATE TABLE Producto (
 GO
 CREATE NONCLUSTERED INDEX idx_Nombre ON dbo.Producto (Nombre ASC);
 
-PRINT 'Tablas generadas'
-
-
 
 
 -- Insert rows into table 'Proveedor'
@@ -82,7 +79,6 @@ VALUES
 	('cocacola355ml', 'Coca-Cola 355 ML', 'Refresco', 9.60, 'No activo', 'Abarrotera Almaximo')
 GO
 
-PRINT 'Valores insertados de manera correcta'
 
 SELECT * FROM [db_almaximo].[dbo].[Proveedor]
 SELECT * FROM [db_almaximo].[dbo].[TipoDeProducto]

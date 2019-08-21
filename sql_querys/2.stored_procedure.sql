@@ -88,6 +88,17 @@ AS
 GO
 
 
+
+
+IF EXISTS (
+SELECT *
+	FROM INFORMATION_SCHEMA.ROUTINES
+WHERE SPECIFIC_SCHEMA = N'dbo'
+	AND SPECIFIC_NAME = N'spObtenerTipoDeProductos'
+)
+DROP PROCEDURE dbo.spObtenerTipoDeProductos
+GO
+
 CREATE PROCEDURE [dbo].[spObtenerTipoDeProductos]
 AS
 	SELECT [Nombre], [Descripcion]
