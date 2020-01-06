@@ -1,6 +1,5 @@
-# AlMaximo Examen
+# Venta de productos
 
-Repositorio del examen técnico de [AlMaximoTI](http://www.almaximoti.com/Sitio/contactanos.html).
 
 ## Acerca del repositorio
 📋 El proyecto fue realizado usando las siguientes tecnologías: ⚙️
